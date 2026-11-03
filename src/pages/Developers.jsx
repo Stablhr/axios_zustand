@@ -49,7 +49,7 @@ export default function Developers({ openGuide }) {
           to="/"
           className="flex min-h-11 flex-1 items-center justify-center rounded-2xl bg-sand px-5 py-3 font-medium text-espresso transition-colors duration-150 hover:bg-sand-dark focus-visible:ring-2 focus-visible:ring-latte/60 focus-visible:outline-none"
         >
-          Back to dashboard
+          Dashboard
         </Link>
         <Link
           to="/categories"

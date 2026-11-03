@@ -81,7 +81,7 @@ export default function Home() {
           to="/groups"
           className="flex min-h-11 flex-1 items-center justify-center rounded-2xl bg-latte px-5 py-3 font-medium text-white shadow-btn transition-[background-color,transform] duration-150 ease-out hover:bg-latte-dark active:scale-95 focus-visible:ring-2 focus-visible:ring-latte-dark/60 focus-visible:outline-none"
         >
-          Go to Categories
+          Categories
         </Link>
         <Link
           to="/users"

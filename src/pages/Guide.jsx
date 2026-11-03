@@ -20,7 +20,7 @@ const STEPS = [
   },
   {
     title: 'Navigate between pages and categories',
-    body: 'Use the navigation bar (Home, Categories, Users, Developers) at the bottom. On a category page, use ← Back to Categories. On the dashboard, use the Go to Categories button. Open buttons on category cards open that category.',
+    body: 'Use the navigation bar (Home, Categories, Users, Developers) at the bottom. On a category page, use ← Back to Categories. On the dashboard, use the Categories button. Open buttons on category cards open that category.',
   },
   {
     title: 'Retrieve user information with Axios',
@@ -76,7 +76,7 @@ export function GuideContent({ onClose }) {
           onClick={onClose}
           className="flex min-h-11 flex-1 items-center justify-center rounded-2xl bg-latte px-5 py-3 font-medium text-white shadow-btn transition-[background-color,transform] duration-150 ease-out hover:bg-latte-dark active:scale-95 focus-visible:ring-2 focus-visible:ring-latte-dark/60 focus-visible:outline-none"
         >
-          Go to Categories
+          Categories
         </Link>
         <Link
           to="/users"
