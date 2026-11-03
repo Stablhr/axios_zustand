@@ -6,7 +6,7 @@ function initials(user) {
   return `${first}${last}`.toUpperCase() || '?'
 }
 
-export default function UserCard({ user, compact = false }) {
+export default function UserCard({ user, compact = false, showEmail = false }) {
   const [imageFailed, setImageFailed] = useState(false)
   const fullName = `${user?.firstName || ''} ${user?.lastName || ''}`.trim()
 
@@ -43,7 +43,7 @@ export default function UserCard({ user, compact = false }) {
         {user?.username ? (
           <div className="truncate text-xs text-mocha">@{user.username}</div>
         ) : null}
-        {!compact && user?.email ? (
+        {(showEmail || !compact) && user?.email ? (
           <div className="truncate text-sm text-mocha">{user.email}</div>
         ) : null}
         {!compact && user?.phone ? (

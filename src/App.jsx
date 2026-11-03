@@ -19,7 +19,7 @@ export default function App() {
         <main
           className={`scroll-area safe-x app-pt flex-1 overscroll-contain pb-24 short-screen:pb-6 sm:min-h-0 sm:pb-6 ${
             location.pathname === '/'
-              ? '!overflow-hidden home-desktop'
+              ? 'min-h-0 overflow-y-auto home-desktop'
               : 'min-h-0 overflow-y-auto'
           }`}
         >

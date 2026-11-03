@@ -72,7 +72,7 @@ export default function Home() {
         ) : error ? (
           <ErrorMessage message={error} onRetry={refetch} />
         ) : user ? (
-          <UserCard user={user} />
+          <UserCard user={user} compact showEmail />
         ) : null}
       </section>
 
