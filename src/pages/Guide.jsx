@@ -20,7 +20,28 @@ const STEPS = [
   },
   {
     title: 'Navigate between pages and categories',
-    body: 'Use the navigation bar (Home, Categories, Guide, Developers) at the bottom. On a category page, use ← Back to Categories. On the dashboard, use the Go to Categories button. Open buttons on category cards open that category.',
+    body: 'Use the navigation bar (Home, Categories, Users, Developers) at the bottom. On a category page, use ← Back to Categories. On the dashboard, use the Go to Categories button. Open buttons on category cards open that category.',
+  },
+  {
+    title: 'Retrieve user information with Axios',
+    body: 'The app sends a GET request with Axios to https://dummyjson.com/users (or /users/1). While waiting, a loading indicator appears. When the response arrives, the user\'s name, email, username and photo are shown. If the request fails, an error message and a Retry button appear.',
+    code: `import axios from "axios";
+
+const api = axios.create({ baseURL: "https://dummyjson.com" });
+
+export const fetchUserById = (id) =>
+  api.get(\`/users/\${id}\`).then((res) => res.data);`,
+  },
+  {
+    title: 'Share task data with Zustand',
+    body: 'Tasks and groups live in one global store. Any page can read them and call actions such as addTask, toggleTask and deleteTask. When the store changes, every component that uses that data (dashboard stats, group cards, task lists) re-renders automatically, so no props need to be passed down.',
+    code: `import { create } from "zustand";
+
+export const useTaskStore = create((set) => ({
+  tasks: [],
+  addTask: (text) =>
+    set((state) => ({ tasks: [...state.tasks, { text, done: false }] })),
+}));`,
   },
 ]
 
@@ -39,18 +60,32 @@ export function GuideContent({ onClose }) {
             <div className="min-w-0">
               <h2 className="text-lg font-semibold text-espresso">{step.title}</h2>
               <p className="mt-1 text-sm leading-relaxed text-mocha">{step.body}</p>
+              {step.code ? (
+                <pre className="mt-3 overflow-x-auto rounded-2xl bg-sand/80 p-3 text-xs text-espresso">
+                  <code>{step.code}</code>
+                </pre>
+              ) : null}
             </div>
           </li>
         ))}
       </ol>
 
-      <Link
-        to="/categories"
-        onClick={onClose}
-        className="mt-4 flex min-h-11 items-center justify-center rounded-2xl bg-latte px-5 py-3 font-medium text-white shadow-btn transition-[background-color,transform] duration-150 ease-out hover:bg-latte-dark active:scale-95 focus-visible:ring-2 focus-visible:ring-latte-dark/60 focus-visible:outline-none"
-      >
-        Go to Categories
-      </Link>
+      <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+        <Link
+          to="/categories"
+          onClick={onClose}
+          className="flex min-h-11 flex-1 items-center justify-center rounded-2xl bg-latte px-5 py-3 font-medium text-white shadow-btn transition-[background-color,transform] duration-150 ease-out hover:bg-latte-dark active:scale-95 focus-visible:ring-2 focus-visible:ring-latte-dark/60 focus-visible:outline-none"
+        >
+          Go to Categories
+        </Link>
+        <Link
+          to="/users"
+          onClick={onClose}
+          className="flex min-h-11 flex-1 items-center justify-center rounded-2xl bg-sand px-5 py-3 font-medium text-espresso transition-colors duration-150 hover:bg-sand-dark focus-visible:ring-2 focus-visible:ring-latte/60 focus-visible:outline-none"
+        >
+          Go to Users page
+        </Link>
+      </div>
     </>
   )
 }
@@ -59,7 +94,6 @@ export default function Guide({ openGuide }) {
   return (
     <div className="flex flex-col gap-5 px-0 py-2">
       <Header title="Guide" onGuideClick={openGuide} />
-
       <GuideContent />
     </div>
   )

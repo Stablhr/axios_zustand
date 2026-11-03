@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar.jsx'
 import Home from './pages/Home.jsx'
@@ -6,98 +6,12 @@ import Groups from './pages/Groups.jsx'
 import GroupTasks from './pages/GroupTasks.jsx'
 import Guide, { GuideContent } from './pages/Guide.jsx'
 import Developers from './pages/Developers.jsx'
+import Users from './pages/Users.jsx'
 import NotFound from './pages/NotFound.jsx'
-import { loadGroups, saveGroups, loadTasks, saveTasks } from './lib/storage.js'
-
-const newId = () => globalThis.crypto?.randomUUID?.() ?? Date.now().toString()
-
-function slugify(name) {
-  return name
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-}
 
 export default function App() {
   const location = useLocation()
-  const [groups, setGroups] = useState(loadGroups)
-  const [tasks, setTasks] = useState(loadTasks)
   const [guideOpen, setGuideOpen] = useState(false)
-
-  useEffect(() => {
-    saveGroups(groups)
-  }, [groups])
-
-  useEffect(() => {
-    saveTasks(tasks)
-  }, [tasks])
-
-  // ---- Group handlers ----
-  function addGroup(name) {
-    const trimmed = (name || '').trim()
-    if (!trimmed) return 'Category name cannot be empty.'
-    const duplicate = groups.some(
-      (g) => g.name.trim().toLowerCase() === trimmed.toLowerCase(),
-    )
-    if (duplicate) return 'A category with that name already exists.'
-    const base = slugify(trimmed) || 'group'
-    let id = base
-    const existing = new Set(groups.map((g) => g.id))
-    let counter = 2
-    while (existing.has(id)) {
-      id = `${base}-${counter}`
-      counter += 1
-    }
-    setGroups([...groups, { id, name: trimmed }])
-    return null
-  }
-
-  function deleteGroup(groupId) {
-    setGroups(groups.filter((g) => g.id !== groupId))
-    setTasks(tasks.filter((t) => t.groupId !== groupId))
-  }
-
-  // ---- Task handlers ----
-  function addTask(groupId, text) {
-    const trimmed = (text || '').trim()
-    if (!trimmed) return 'Task text cannot be empty.'
-    setTasks([...tasks, { id: newId(), groupId, text: trimmed, done: false }])
-    return null
-  }
-
-  function toggleTask(taskId) {
-    setTasks(
-      tasks.map((task) =>
-        task.id === taskId ? { ...task, done: !task.done } : task,
-      ),
-    )
-  }
-
-  function deleteTask(taskId) {
-    setTasks(tasks.filter((task) => task.id !== taskId))
-  }
-
-  function clearGroupTasks(groupId) {
-    setTasks(tasks.filter((task) => task.groupId !== groupId))
-  }
-
-  function clearAllTasks() {
-    setTasks([])
-  }
-
-  const sharedProps = {
-    groups,
-    tasks,
-    addGroup,
-    deleteGroup,
-    addTask,
-    toggleTask,
-    deleteTask,
-    clearGroupTasks,
-    clearAllTasks,
-    openGuide: () => setGuideOpen(true),
-  }
 
   return (
     <div className="min-h-dvh bg-cream">
@@ -110,14 +24,15 @@ export default function App() {
           }`}
         >
           <Routes>
-            <Route path="/" element={<Home {...sharedProps} />} />
-            <Route path="/groups" element={<Groups {...sharedProps} />} />
-            <Route path="/groups/:groupId" element={<GroupTasks {...sharedProps} />} />
-            <Route path="/categories" element={<Groups {...sharedProps} />} />
-            <Route path="/categories/:categoryId" element={<GroupTasks {...sharedProps} />} />
-            <Route path="/guide" element={<Guide openGuide={sharedProps.openGuide} />} />
-            <Route path="/developers" element={<Developers openGuide={sharedProps.openGuide} />} />
-            <Route path="*" element={<NotFound openGuide={sharedProps.openGuide} />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/groups" element={<Groups openGuide={() => setGuideOpen(true)} />} />
+            <Route path="/groups/:groupId" element={<GroupTasks openGuide={() => setGuideOpen(true)} />} />
+            <Route path="/categories" element={<Groups openGuide={() => setGuideOpen(true)} />} />
+            <Route path="/categories/:categoryId" element={<GroupTasks openGuide={() => setGuideOpen(true)} />} />
+            <Route path="/guide" element={<Guide openGuide={() => setGuideOpen(true)} />} />
+            <Route path="/users" element={<Users openGuide={() => setGuideOpen(true)} />} />
+            <Route path="/developers" element={<Developers openGuide={() => setGuideOpen(true)} />} />
+            <Route path="*" element={<NotFound openGuide={() => setGuideOpen(true)} />} />
           </Routes>
         </main>
 

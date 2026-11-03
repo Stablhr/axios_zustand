@@ -1,31 +1,43 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
+import { useTaskStore } from '../store/useTaskStore.js'
 import Header from '../components/Header.jsx'
 import GroupCard from '../components/GroupCard.jsx'
 import EmptyState from '../components/EmptyState.jsx'
 
-export default function Groups({ groups, tasks, addGroup, deleteGroup, clearGroupTasks, openGuide }) {
+export default function Groups({ openGuide }) {
+  const groups = useTaskStore((s) => s.groups)
+  const tasks = useTaskStore((s) => s.tasks)
+  const addGroup = useTaskStore((s) => s.addGroup)
+  const deleteGroup = useTaskStore((s) => s.deleteGroup)
+  const clearGroupTasks = useTaskStore((s) => s.clearGroupTasks)
+
   const [name, setName] = useState('')
   const [error, setError] = useState('')
 
+  const counts = useMemo(() => {
+    const map = {}
+    for (const task of tasks) {
+      if (!map[task.groupId]) map[task.groupId] = { total: 0, done: 0 }
+      map[task.groupId].total += 1
+      if (task.done) map[task.groupId].done += 1
+    }
+    return map
+  }, [tasks])
+
   function handleCreate(event) {
     event.preventDefault()
-    const err = addGroup(name)
-    if (err) {
-      setError(err)
+    const result = addGroup(name)
+    if (!result.ok) {
+      setError(result.error)
     } else {
       setName('')
       setError('')
     }
   }
 
-  function countFor(groupId) {
-    const groupTasks = tasks.filter((t) => t.groupId === groupId)
-    return { total: groupTasks.length, done: groupTasks.filter((t) => t.done).length }
-  }
-
   function handleDeleteGroup(group) {
-    const taskCount = tasks.filter((t) => t.groupId === group.id).length
+    const taskCount = counts[group.id]?.total || 0
     const message =
       taskCount > 0
         ? `Delete category "${group.name}" and its ${taskCount} task(s)? This cannot be undone.`
@@ -36,11 +48,15 @@ export default function Groups({ groups, tasks, addGroup, deleteGroup, clearGrou
   }
 
   function handleClearGroup(group) {
-    const taskCount = tasks.filter((t) => t.groupId === group.id).length
+    const taskCount = counts[group.id]?.total || 0
     if (taskCount === 0) return
     if (window.confirm(`Clear all ${taskCount} task(s) in "${group.name}"?`)) {
       clearGroupTasks(group.id)
     }
+  }
+
+  function countFor(groupId) {
+    return counts[groupId] || { total: 0, done: 0 }
   }
 
   return (

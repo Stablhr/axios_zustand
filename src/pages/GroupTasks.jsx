@@ -1,25 +1,47 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { useTaskStore } from '../store/useTaskStore.js'
+import { fetchUserById } from '../api/users.js'
+import { useFetch } from '../hooks/useFetch.js'
 import Header from '../components/Header.jsx'
 import ProgressStrip from '../components/ProgressStrip.jsx'
 import TaskInput from '../components/TaskInput.jsx'
 import TaskList from '../components/TaskList.jsx'
 import EmptyState from '../components/EmptyState.jsx'
+import Loader from '../components/Loader.jsx'
+import ErrorMessage from '../components/ErrorMessage.jsx'
+import UserCard from '../components/UserCard.jsx'
 
-export default function GroupTasks({
-  groups,
-  tasks,
-  addTask,
-  toggleTask,
-  deleteTask,
-  clearGroupTasks,
-  openGuide,
-}) {
+export default function GroupTasks({ openGuide }) {
   const { groupId, categoryId } = useParams()
   const resolvedGroupId = groupId || categoryId
+
+  const groups = useTaskStore((s) => s.groups)
+  const allTasks = useTaskStore((s) => s.tasks)
+  const addTask = useTaskStore((s) => s.addTask)
+  const toggleTask = useTaskStore((s) => s.toggleTask)
+  const deleteTask = useTaskStore((s) => s.deleteTask)
+  const clearGroupTasks = useTaskStore((s) => s.clearGroupTasks)
+
   const group = groups.find((g) => g.id === resolvedGroupId)
 
+  const groupTasks = useMemo(
+    () => allTasks.filter((task) => task.groupId === resolvedGroupId),
+    [allTasks, resolvedGroupId],
+  )
+  const ordered = useMemo(
+    () => [...groupTasks].sort((a, b) => Number(a.done) - Number(b.done)),
+    [groupTasks],
+  )
+  const total = groupTasks.length
+  const done = groupTasks.filter((task) => task.done).length
+
   const [input, setInput] = useState('')
+
+  const { data: user, loading, error, refetch } = useFetch(
+    () => fetchUserById(1),
+    [],
+  )
 
   if (!group) {
     return (
@@ -40,16 +62,9 @@ export default function GroupTasks({
     )
   }
 
-  const groupTasks = tasks.filter((t) => t.groupId === resolvedGroupId)
-  const ordered = [...groupTasks].sort(
-    (a, b) => Number(a.done) - Number(b.done),
-  )
-  const total = groupTasks.length
-  const done = groupTasks.filter((t) => t.done).length
-
   function handleAdd() {
-    const err = addTask(resolvedGroupId, input)
-    if (!err) setInput('')
+    const result = addTask(resolvedGroupId, input)
+    if (result.ok) setInput('')
   }
 
   function handleClear() {
@@ -62,6 +77,16 @@ export default function GroupTasks({
   return (
     <div className="flex flex-col gap-5 px-0 py-2">
       <Header title={group.name} date={`${done} of ${total} done`} onGuideClick={openGuide} />
+
+      <div className="flex flex-wrap items-center gap-2">
+        {loading ? (
+          <Loader text="Loading user information…" />
+        ) : error ? (
+          <ErrorMessage message={error} onRetry={refetch} />
+        ) : user ? (
+          <UserCard user={user} compact />
+        ) : null}
+      </div>
 
       <Link
         to="/categories"

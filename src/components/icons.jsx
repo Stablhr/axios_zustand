@@ -56,6 +56,17 @@ export function QuestionIcon(props) {
   )
 }
 
+export function UsersIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+      <circle cx="8" cy="8" r="3" />
+      <path d="M2.5 20c0-3 2.5-5 5.5-5s5.5 2 5.5 5" />
+      <circle cx="17" cy="9" r="2.5" />
+      <path d="M14.5 20c.3-2 1.8-3.5 4-3.5 1.2 0 2.3.4 3 1" />
+    </svg>
+  )
+}
+
 export function BookIcon(props) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>

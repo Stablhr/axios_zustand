@@ -1,7 +1,14 @@
 import { Link } from 'react-router-dom'
+import { useMemo } from 'react'
+import { useTaskStore } from '../store/useTaskStore.js'
+import { fetchUserById } from '../api/users.js'
+import { useFetch } from '../hooks/useFetch.js'
 import Header from '../components/Header.jsx'
 import ProgressStrip from '../components/ProgressStrip.jsx'
 import StatCard from '../components/StatCard.jsx'
+import Loader from '../components/Loader.jsx'
+import ErrorMessage from '../components/ErrorMessage.jsx'
+import UserCard from '../components/UserCard.jsx'
 
 const dateLabel = new Date().toLocaleDateString(undefined, {
   weekday: 'long',
@@ -9,11 +16,19 @@ const dateLabel = new Date().toLocaleDateString(undefined, {
   day: 'numeric',
 })
 
-export default function Home({ tasks, clearAllTasks }) {
-  const total = tasks.length
-  const completed = tasks.filter((t) => t.done).length
+export default function Home() {
+  const tasks = useTaskStore((s) => s.tasks)
+  const clearAllTasks = useTaskStore((s) => s.clearAllTasks)
+
+  const total = useMemo(() => tasks.length, [tasks])
+  const completed = useMemo(() => tasks.filter((t) => t.done).length, [tasks])
   const pending = total - completed
   const percent = total === 0 ? 0 : Math.round((completed / total) * 100)
+
+  const { data: user, loading, error, refetch } = useFetch(
+    () => fetchUserById(1),
+    [],
+  )
 
   function handleClearAll() {
     if (total === 0) return
@@ -22,13 +37,15 @@ export default function Home({ tasks, clearAllTasks }) {
     }
   }
 
+  const welcomeName = user?.firstName ? `, ${user.firstName}` : ''
+
   return (
     <div className="flex flex-col gap-5 px-0 py-2">
       <Header title="Home" date={dateLabel} />
 
       <section className="rounded-3xl bg-sand/60 p-5">
         <h2 className="text-xl font-semibold text-espresso">
-          Welcome back! Here's your day at a glance.
+          Welcome back{welcomeName}! Here's your day at a glance.
         </h2>
         <p className="mt-2 text-sm leading-relaxed text-mocha">
           A calm, warm place to keep your tasks organized by group. Create groups,
@@ -49,12 +66,28 @@ export default function Home({ tasks, clearAllTasks }) {
         <div className="mt-1 text-2xl font-semibold text-espresso">{percent}%</div>
       </section>
 
+      <section className="flex flex-col gap-3">
+        {loading ? (
+          <Loader text="Loading user information…" />
+        ) : error ? (
+          <ErrorMessage message={error} onRetry={refetch} />
+        ) : user ? (
+          <UserCard user={user} />
+        ) : null}
+      </section>
+
       <section className="flex flex-col gap-2 sm:flex-row">
         <Link
           to="/groups"
           className="flex min-h-11 flex-1 items-center justify-center rounded-2xl bg-latte px-5 py-3 font-medium text-white shadow-btn transition-[background-color,transform] duration-150 ease-out hover:bg-latte-dark active:scale-95 focus-visible:ring-2 focus-visible:ring-latte-dark/60 focus-visible:outline-none"
         >
           Go to Categories
+        </Link>
+        <Link
+          to="/users"
+          className="flex min-h-11 flex-1 items-center justify-center rounded-2xl bg-sand px-5 py-3 font-medium text-espresso transition-colors duration-150 hover:bg-sand-dark focus-visible:ring-2 focus-visible:ring-latte/60 focus-visible:outline-none"
+        >
+          Users
         </Link>
         <Link
           to="/guide"
@@ -81,4 +114,3 @@ export default function Home({ tasks, clearAllTasks }) {
     </div>
   )
 }
-
