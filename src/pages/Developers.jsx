@@ -1,10 +1,5 @@
 import { Link } from 'react-router-dom'
-import { fetchUsers } from '../api/users.js'
-import { useFetch } from '../hooks/useFetch.js'
 import Header from '../components/Header.jsx'
-import Loader from '../components/Loader.jsx'
-import ErrorMessage from '../components/ErrorMessage.jsx'
-import UserCard from '../components/UserCard.jsx'
 
 const developers = [
   { name: 'LAPAZ, JASMINE', role: 'Student Developer' },
@@ -24,8 +19,6 @@ function initials(name) {
 }
 
 export default function Developers({ openGuide }) {
-  const { data: users, loading, error, refetch } = useFetch(() => fetchUsers(12), [])
-
   return (
     <div className="flex flex-col gap-5 px-0 py-2">
       <Header title="Developers" onGuideClick={openGuide} />
@@ -50,21 +43,6 @@ export default function Developers({ openGuide }) {
           </li>
         ))}
       </ul>
-
-      <section className="flex flex-col gap-3">
-        <h2 className="text-xl font-semibold text-espresso">Sample users from DummyJSON</h2>
-        {loading ? (
-          <Loader text="Loading user information…" />
-        ) : error ? (
-          <ErrorMessage message={error} onRetry={refetch} />
-        ) : (
-          <div className="flex flex-col gap-3">
-            {(users || []).map((user) => (
-              <UserCard key={user.id} user={user} />
-            ))}
-          </div>
-        )}
-      </section>
 
       <div className="flex flex-col gap-2 sm:flex-row">
         <Link
