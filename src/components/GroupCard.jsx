@@ -4,16 +4,16 @@ import { TrashIcon } from './icons.jsx'
 export default function GroupCard({ group, taskCount, doneCount, onDelete, onClear }) {
   return (
     <li className="rounded-3xl bg-sand/60 p-4 sm:p-5">
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
         <div className="min-w-0">
-          <h2 className="truncate text-lg font-semibold text-espresso">
+          <h2 className="min-w-0 break-words text-lg font-semibold text-espresso">
             {group.name}
           </h2>
           <p className="mt-1 text-sm text-mocha">
             {taskCount} {taskCount === 1 ? 'task' : 'tasks'} · {doneCount} done
           </p>
         </div>
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex shrink-0 flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={onClear}

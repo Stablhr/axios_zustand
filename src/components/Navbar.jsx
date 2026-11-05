@@ -11,22 +11,22 @@ const LINKS = [
 
 export default function Navbar() {
   return (
-    <nav aria-label="Main navigation" className="rounded-3xl bg-sand p-1.5 shadow-card">
-      <ul className="flex items-center gap-1">
+    <nav aria-label="Main navigation" className="rounded-3xl bg-sand p-0.5 shadow-card sm:p-1.5">
+      <ul className="grid w-full grid-cols-4 gap-0 sm:gap-1">
         {LINKS.map(({ to, label, Icon, end }) => (
-          <li key={to} className="flex-1">
+          <li key={to} className="min-w-0">
             <NavLink
               to={to}
               end={end}
               className={({ isActive }) =>
-                `flex min-h-11 w-full items-center justify-center gap-1 rounded-2xl px-0.5 text-[11px] font-medium transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-latte/60 focus-visible:outline-none sm:gap-1.5 sm:px-1 sm:text-xs ${
+                `flex min-h-11 min-w-0 w-full items-center justify-center gap-0.5 rounded-2xl px-0 text-[11px] font-medium whitespace-nowrap transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-latte/60 focus-visible:outline-none sm:gap-1.5 sm:px-1 sm:text-sm ${
                   isActive
                     ? 'bg-cream text-latte-dark shadow-btn'
                     : 'text-mocha hover:text-espresso'
                 }`
               }
             >
-              <Icon className="h-4 w-4 shrink-0 sm:h-5 sm:w-5" />
+              <Icon className="h-3 w-3 shrink-0 sm:h-5 sm:w-5" />
               <span className="truncate">{label}</span>
             </NavLink>
           </li>

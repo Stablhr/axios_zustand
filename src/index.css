@@ -101,6 +101,20 @@
   padding-inline-end: max(1.25rem, env(safe-area-inset-right));
 }
 
+/* The navbar is a 4-column grid; at 320px the widest label ("Developers")
+   only fits if the side gutters give the tabs more room. */
+.nav-safe-x {
+  padding-inline-start: max(0.5rem, env(safe-area-inset-left));
+  padding-inline-end: max(0.5rem, env(safe-area-inset-right));
+}
+
+@media (min-width: 640px) {
+  .nav-safe-x {
+    padding-inline-start: 1rem;
+    padding-inline-end: 1rem;
+  }
+}
+
 .safe-pb {
   /* Clear of the home indicator / gesture bar on phones. */
   padding-bottom: max(1rem, env(safe-area-inset-bottom));

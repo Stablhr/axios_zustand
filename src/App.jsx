@@ -14,10 +14,10 @@ export default function App() {
   const [guideOpen, setGuideOpen] = useState(false)
 
   return (
-    <div className="min-h-dvh bg-cream">
-      <div className="mx-auto flex h-dvh w-full max-w-xl flex-col sm:my-6 sm:h-[calc(100dvh-3rem)] sm:min-h-0 sm:rounded-3xl sm:border sm:border-sand-dark/50 sm:shadow-card">
+    <div className="min-h-screen min-h-dvh bg-cream">
+      <div className="mx-auto flex box-border h-screen h-dvh w-full max-w-xl flex-col sm:my-6 sm:h-[calc(100dvh-3rem)] sm:min-h-0 sm:rounded-3xl sm:border sm:border-sand-dark/50 sm:shadow-card">
         <main
-          className={`scroll-area safe-x app-pt flex-1 overscroll-contain pb-24 short-screen:pb-6 sm:min-h-0 sm:pb-6 ${
+          className={`scroll-area safe-x app-pt box-border flex-1 overscroll-contain pb-28 short-screen:pb-6 sm:min-h-0 sm:pb-6 ${
             location.pathname === '/'
               ? 'min-h-0 overflow-y-auto home-desktop'
               : 'min-h-0 overflow-y-auto'
@@ -36,7 +36,7 @@ export default function App() {
           </Routes>
         </main>
 
-        <div className="safe-x safe-pb fixed inset-x-0 bottom-0 z-10 bg-gradient-to-t from-cream to-transparent pt-4 sm:static sm:shrink-0 sm:bg-none sm:p-4">
+        <div className="nav-safe-x safe-pb fixed inset-x-0 bottom-0 z-10 bg-gradient-to-t from-cream to-transparent pt-4 sm:static sm:shrink-0 sm:bg-none sm:p-4">
           <Navbar />
         </div>
 

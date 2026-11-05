@@ -37,20 +37,20 @@ export default function UserCard({ user, compact = false, showEmail = false }) {
       )}
 
       <div className="min-w-0">
-        <div className={`truncate font-semibold text-espresso ${compact ? 'text-sm' : 'text-base'}`}>
+        <div className={`break-words font-semibold text-espresso ${compact ? 'text-sm' : 'text-base'}`}>
           {fullName || 'Unknown user'}
         </div>
         {user?.username ? (
-          <div className="truncate text-xs text-mocha">@{user.username}</div>
+          <div className="break-all text-xs text-mocha">@{user.username}</div>
         ) : null}
         {(showEmail || !compact) && user?.email ? (
-          <div className="truncate text-sm text-mocha">{user.email}</div>
+          <div className="break-all text-sm text-mocha">{user.email}</div>
         ) : null}
         {!compact && user?.phone ? (
-          <div className="truncate text-xs text-mocha">{user.phone}</div>
+          <div className="break-all text-xs text-mocha">{user.phone}</div>
         ) : null}
         {!compact && user?.company?.name ? (
-          <div className="truncate text-xs text-mocha">{user.company.name}</div>
+          <div className="break-words text-xs text-mocha">{user.company.name}</div>
         ) : null}
       </div>
     </article>
