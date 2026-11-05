@@ -1,5 +1,4 @@
 import { useState, useMemo } from 'react'
-import { Link } from 'react-router-dom'
 import { fetchUsers } from '../api/users.js'
 import { useFetch } from '../hooks/useFetch.js'
 import Header from '../components/Header.jsx'
@@ -58,21 +57,6 @@ export default function Users({ openGuide }) {
           )}
         </div>
       )}
-
-      <div className="flex flex-col gap-2 sm:flex-row">
-        <Link
-          to="/"
-          className="flex min-h-11 flex-1 items-center justify-center rounded-2xl bg-sand px-5 py-3 font-medium text-espresso transition-colors duration-150 hover:bg-sand-dark focus-visible:ring-2 focus-visible:ring-latte/60 focus-visible:outline-none"
-        >
-          Dashboard
-        </Link>
-        <Link
-          to="/groups"
-          className="flex min-h-11 flex-1 items-center justify-center rounded-2xl bg-sand px-5 py-3 font-medium text-espresso transition-colors duration-150 hover:bg-sand-dark focus-visible:ring-2 focus-visible:ring-latte/60 focus-visible:outline-none"
-        >
-          Categories
-        </Link>
-      </div>
     </div>
   )
 }

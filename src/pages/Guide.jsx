@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import Header from '../components/Header.jsx'
 
 const STEPS = [
@@ -45,48 +44,29 @@ export const useTaskStore = create((set) => ({
   },
 ]
 
-export function GuideContent({ onClose }) {
+export function GuideContent() {
   return (
-    <>
-      <ol className="flex flex-col gap-3">
-        {STEPS.map((step, index) => (
-          <li
-            key={step.title}
-            className="flex gap-3 rounded-3xl bg-sand/60 p-4 sm:gap-4 sm:p-5"
-          >
-            <span className="font-hand text-4xl leading-none text-latte">
-              {index + 1}
-            </span>
-            <div className="min-w-0">
-              <h2 className="text-lg font-semibold text-espresso">{step.title}</h2>
-              <p className="mt-1 text-sm leading-relaxed text-mocha">{step.body}</p>
-              {step.code ? (
-                <pre className="mt-3 overflow-x-auto rounded-2xl bg-sand/80 p-3 text-xs text-espresso">
-                  <code>{step.code}</code>
-                </pre>
-              ) : null}
-            </div>
-          </li>
-        ))}
-      </ol>
-
-      <div className="mt-4 flex flex-col gap-2 sm:flex-row">
-        <Link
-          to="/categories"
-          onClick={onClose}
-          className="flex min-h-11 flex-1 items-center justify-center rounded-2xl bg-latte px-5 py-3 font-medium text-white shadow-btn transition-[background-color,transform] duration-150 ease-out hover:bg-latte-dark active:scale-95 focus-visible:ring-2 focus-visible:ring-latte-dark/60 focus-visible:outline-none"
+    <ol className="flex flex-col gap-3">
+      {STEPS.map((step, index) => (
+        <li
+          key={step.title}
+          className="flex gap-3 rounded-3xl bg-sand/60 p-4 sm:gap-4 sm:p-5"
         >
-          Categories
-        </Link>
-        <Link
-          to="/users"
-          onClick={onClose}
-          className="flex min-h-11 flex-1 items-center justify-center rounded-2xl bg-sand px-5 py-3 font-medium text-espresso transition-colors duration-150 hover:bg-sand-dark focus-visible:ring-2 focus-visible:ring-latte/60 focus-visible:outline-none"
-        >
-          Go to Users page
-        </Link>
-      </div>
-    </>
+          <span className="font-hand text-4xl leading-none text-latte">
+            {index + 1}
+          </span>
+          <div className="min-w-0">
+            <h2 className="text-lg font-semibold text-espresso">{step.title}</h2>
+            <p className="mt-1 text-sm leading-relaxed text-mocha">{step.body}</p>
+            {step.code ? (
+              <pre className="mt-3 overflow-x-auto rounded-2xl bg-sand/80 p-3 text-xs text-espresso">
+                <code>{step.code}</code>
+              </pre>
+            ) : null}
+          </div>
+        </li>
+      ))}
+    </ol>
   )
 }
 

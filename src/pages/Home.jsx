@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import { useMemo } from 'react'
 import { useTaskStore } from '../store/useTaskStore.js'
 import { fetchUserById } from '../api/users.js'
@@ -74,33 +73,6 @@ export default function Home() {
         ) : user ? (
           <UserCard user={user} compact showEmail />
         ) : null}
-      </section>
-
-      <section className="flex flex-col gap-2 sm:flex-row">
-        <Link
-          to="/groups"
-          className="flex min-h-11 flex-1 items-center justify-center rounded-2xl bg-latte px-5 py-3 font-medium text-white shadow-btn transition-[background-color,transform] duration-150 ease-out hover:bg-latte-dark active:scale-95 focus-visible:ring-2 focus-visible:ring-latte-dark/60 focus-visible:outline-none"
-        >
-          Categories
-        </Link>
-        <Link
-          to="/users"
-          className="flex min-h-11 flex-1 items-center justify-center rounded-2xl bg-sand px-5 py-3 font-medium text-espresso transition-colors duration-150 hover:bg-sand-dark focus-visible:ring-2 focus-visible:ring-latte/60 focus-visible:outline-none"
-        >
-          Users
-        </Link>
-        <Link
-          to="/guide"
-          className="flex min-h-11 flex-1 items-center justify-center rounded-2xl bg-sand px-5 py-3 font-medium text-espresso transition-colors duration-150 hover:bg-sand-dark focus-visible:ring-2 focus-visible:ring-latte/60 focus-visible:outline-none"
-        >
-          User Guide
-        </Link>
-        <Link
-          to="/developers"
-          className="flex min-h-11 flex-1 items-center justify-center rounded-2xl bg-sand px-5 py-3 font-medium text-espresso transition-colors duration-150 hover:bg-sand-dark focus-visible:ring-2 focus-visible:ring-latte/60 focus-visible:outline-none"
-        >
-          Developers
-        </Link>
       </section>
 
       <button

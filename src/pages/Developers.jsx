@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import Header from '../components/Header.jsx'
 
 const developers = [
@@ -44,26 +43,6 @@ export default function Developers({ openGuide }) {
         ))}
       </ul>
 
-      <div className="flex flex-col gap-2 sm:flex-row">
-        <Link
-          to="/"
-          className="flex min-h-11 flex-1 items-center justify-center rounded-2xl bg-sand px-5 py-3 font-medium text-espresso transition-colors duration-150 hover:bg-sand-dark focus-visible:ring-2 focus-visible:ring-latte/60 focus-visible:outline-none"
-        >
-          Dashboard
-        </Link>
-        <Link
-          to="/categories"
-          className="flex min-h-11 flex-1 items-center justify-center rounded-2xl bg-sand px-5 py-3 font-medium text-espresso transition-colors duration-150 hover:bg-sand-dark focus-visible:ring-2 focus-visible:ring-latte/60 focus-visible:outline-none"
-        >
-          Categories
-        </Link>
-        <Link
-          to="/users"
-          className="flex min-h-11 flex-1 items-center justify-center rounded-2xl bg-sand px-5 py-3 font-medium text-espresso transition-colors duration-150 hover:bg-sand-dark focus-visible:ring-2 focus-visible:ring-latte/60 focus-visible:outline-none"
-        >
-          Users
-        </Link>
-      </div>
     </div>
   )
 }

@@ -60,7 +60,7 @@ export default function App() {
                   ×
                 </button>
               </div>
-              <GuideContent onClose={() => setGuideOpen(false)} />
+              <GuideContent />
             </div>
           </div>
         ) : null}
