@@ -2,7 +2,7 @@ export default function ErrorMessage({ message, onRetry }) {
   return (
     <div
       role="alert"
-      className="rounded-3xl bg-rose/10 px-4 py-3 text-sm text-rose"
+      className="flex flex-col items-center rounded-3xl bg-rose/10 px-4 py-3 text-center text-sm text-rose"
     >
       <p>{message}</p>
       {onRetry ? (
